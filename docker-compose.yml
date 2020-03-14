@@ -16,4 +16,5 @@ services:
       - |
         composer config repo.packagist composer https://mirrors.aliyun.com/composer/
         composer install         # 安装依赖
-        php bin/hyperf.php start # 启动
+        #php bin/hyperf.php start # 启动
+        php watch -c             # 热更新
