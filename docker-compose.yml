@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  hyperf:
+    # build: .
+    image: wuchuheng/a861:0.0.2
+    restart: always
+    ports:
+      - "9501:9501"
+    volumes:
+      - ./:/opt/www/
+    privileged: true
+    command:
+      - /bin/sh
+      - -c
+      - |
+        composer config repo.packagist composer https://mirrors.aliyun.com/composer/
+        composer install         # 安装依赖
+        php bin/hyperf.php start # 启动
