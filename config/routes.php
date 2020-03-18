@@ -12,4 +12,20 @@ declare(strict_types=1);
 
 use Hyperf\HttpServer\Router\Router;
 
-Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@index');
+Router::get('/', function (){
+    return 'index';
+});
+# 前端接口免验
+Router::addGroup('/api', function () {
+    Router::get('/login',function () {
+        return 'login';
+    });
+    # 路由验证组
+    Router::addGroup('', function (){
+        Router::get('/data', function (){
+            return 'data';
+        });
+    }, ['middleware' => [Phper666\JwtAuth\Middleware\JwtAuthMiddleware::class]]);
+
+});
+

@@ -24,7 +24,8 @@
         "hyperf/logger": "~1.1.0",
         "hyperf/memory": "~1.1.0",
         "hyperf/process": "~1.1.0",
-        "hyperf/redis": "~1.1.0"
+        "hyperf/redis": "~1.1.0",
+        "phper666/jwt-auth": "~2.0.1"
     },
     "require-dev": {
         "swoft/swoole-ide-helper": "^4.2",
@@ -47,7 +48,7 @@
         "psr-4": {
             "App\\": "app/"
         },
-        "files": []
+        "files": ["app/Helpers/functions.php"]
     },
     "autoload-dev": {
         "psr-4": {
