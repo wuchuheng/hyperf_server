@@ -15,7 +15,7 @@ use Hyperf\HttpServer\Router\Router;
 Router::get('/', function (){
     return 'index';
 });
-# 前端接口免验
+# 前端接口
 Router::addGroup('/api', function () {
     Router::get('/login',function () {
         return 'login';
@@ -29,3 +29,7 @@ Router::addGroup('/api', function () {
 
 });
 
+# 后端接口
+Router::addGroup('/admin', function() {
+    Router::post('/authorizations', [App\Http\Admin\Controller\AuthorizationsController::class, 'store']);
+});
