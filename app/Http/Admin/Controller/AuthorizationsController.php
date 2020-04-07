@@ -38,5 +38,6 @@ class AuthorizationsController extends AbstractController
         return $this->responseSuccessData([
             'token' => $token
         ]);
+
     }
 }

@@ -5,10 +5,10 @@ namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
 /**
- * @property int $id 
- * @property string $name 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property int $id
+ * @property string $name
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class RoleModel extends Model
 {
@@ -17,7 +17,7 @@ class RoleModel extends Model
      *
      * @var string
      */
-    protected $table = 'Roles';
+    protected $table = 'roles';
     /**
      * The attributes that are mass assignable.
      *

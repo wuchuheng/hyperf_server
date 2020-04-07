@@ -32,4 +32,8 @@ Router::addGroup('/api', function () {
 # 后端接口
 Router::addGroup('/api/admin', function () {
     Router::post('/authorizations', [App\Http\Admin\Controller\AuthorizationsController::class, 'store']);
-}, ['middleware' => [App\Middleware\PrefightMiddleware::class]]);
+    # 权限接口
+    Router::addGroup('', function () {
+        Router::get('/users/me', [\App\Http\Admin\Controller\UsersController::class, 'showMe']);
+    });
+});
