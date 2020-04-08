@@ -11,5 +11,6 @@ declare(strict_types=1);
  */
 
 return [
-    \App\Http\Admin\Validate\AuthorizationValidate::class => \App\Http\Admin\Validate\AuthorizationValidate::class
+    \App\Http\Admin\Validation\AuthorizationValidation::class => \App\Http\Admin\Validation\AuthorizationValidation::class,
+    \App\Exception\ValidationException::class => \App\Exception\ValidationException::class
 ];

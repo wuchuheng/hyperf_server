@@ -8,9 +8,10 @@
 
 namespace App\Http\Admin\Controller;
 
+use Couchbase\RegexpSearchQuery;
 use Phper666\JwtAuth\Jwt;
 use Psr\Container\ContainerInterface;
-use App\Http\Admin\Validate\AuthorizationValidate;
+use App\Http\Admin\Validation\AuthorizationValidation;
 
 class AuthorizationsController extends AbstractController
 {
@@ -27,17 +28,19 @@ class AuthorizationsController extends AbstractController
     /**
      * 登录
      */
-    public function store()
+    public function store(AuthorizationValidation $AuthorizationValidation)
     {
-        $userData = [
-            'uid' => 1,
-            'username' => 'xx',
-        ];
-        $token = (string) $this->Jwt->getToken($userData);
-
-        return $this->responseSuccessData([
-            'token' => $token
-        ]);
+        $AuthorizationValidation->scene('authorization')->goCheck();
+//        $userData = [
+//            'uid' => 1,
+//            'username' => 'xx',
+//        ];
+//        $token = (string) $this->Jwt->getToken($userData);
+//
+//
+//        return $this->responseSuccessData([
+//            'token' => $token
+//        ]);
 
     }
 }

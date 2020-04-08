@@ -20,6 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 use Throwable;
 use Psr\Container\ContainerInterface;
 use Phper666\JwtAuth\Exception\TokenValidException;
+use App\Exception\ValidationException;
 
 class HttpExceptionHandler extends ExceptionHandler
 {
@@ -41,7 +42,7 @@ class HttpExceptionHandler extends ExceptionHandler
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
         $this->logger->error($throwable->getTraceAsString());
 
-        //  token 无效
+        //  token 无效异常
         if ($throwable instanceof TokenValidException) {
             return $response->withStatus(200)->withBody(new SwooleStream(json_encode([
                 'code' => 401,
@@ -49,7 +50,15 @@ class HttpExceptionHandler extends ExceptionHandler
                 'data' => [],
             ])));
         }
-        return $response->withHeader("Server", "Hyperf")->withStatus(500)->withBody(new SwooleStream('Internal Server Error.'));
+
+        // 验证异常
+        if ($throwable instanceof  ValidationException) {
+            return $response->withStatus(200)->withBody(new SwooleStream(json_encode([
+                'code' => $throwable->code,
+                'msg' => $throwable->msg,
+                'data' => [],
+            ])));
+        }
     }
 
     public function isValid(Throwable $throwable): bool
