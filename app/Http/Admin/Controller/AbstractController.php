@@ -50,4 +50,18 @@ abstract class AbstractController
             'code' => $data[1] ?? 200,
         ]);
     }
+
+    /**
+     * 失败数据格式
+     * @param string $msg
+     * @return mixed
+     */
+    public function responseFailDate(string $msg = '')
+    {
+        return $this->Response->json([
+            'msg' => $msg ?? 'fails',
+            'data' => [],
+            'code' => 401,
+        ]);
+    }
 }

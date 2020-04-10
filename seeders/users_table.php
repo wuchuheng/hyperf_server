@@ -21,9 +21,10 @@ class UsersTable extends Seeder
     {
         // 生成用户角色
         $User = new UserModel();
-        $User->name = 'admin';
+        $User->username = 'admin';
         $User->phone = 13427969604;
         $User->password = bcrypt('12345678');
+        $User->nickname = '管理员';
         $User->avatar = 'avatar';
         $User->save();
         // 角色信息

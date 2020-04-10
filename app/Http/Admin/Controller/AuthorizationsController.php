@@ -8,9 +8,11 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Model\UserModel;
 use Couchbase\RegexpSearchQuery;
 use Phper666\JwtAuth\Jwt;
 use Psr\Container\ContainerInterface;
+use Laminas\Stdlib\RequestInterface;
 use App\Http\Admin\Validation\AuthorizationValidation;
 
 class AuthorizationsController extends AbstractController
@@ -27,20 +29,28 @@ class AuthorizationsController extends AbstractController
 
     /**
      * 登录
+     * @param AuthorizationValidation $AuthorizationValidation
+     * @param UserModel $UserModel
+     * @return mixed|\Psr\Http\Message\ResponseInterface
      */
-    public function store(AuthorizationValidation $AuthorizationValidation)
+    public function store(
+        AuthorizationValidation $AuthorizationValidation,
+        UserModel $UserModel
+    )
     {
-        $AuthorizationValidation->scene('authorization')->goCheck();
-//        $userData = [
-//            'uid' => 1,
-//            'username' => 'xx',
-//        ];
-//        $token = (string) $this->Jwt->getToken($userData);
-//
-//
-//        return $this->responseSuccessData([
-//            'token' => $token
-//        ]);
-
+        $User = $UserModel->where('username', '=', $this->Request->query('username'))
+            ->where('password', '=', bcrypt($this->Request->query('password')))
+            ->first();
+        if (!$User) {
+            return $this->responseFailDate('账号或密码错误');
+        } else {
+            $token = (string)$this->Jwt->getToken([
+                'uid' => $User->id,
+                'username' => $User->username,
+            ]);
+            return $this->responseSuccessData([
+                'token' => $token
+            ]);
+        }
     }
 }
