@@ -38,8 +38,8 @@ class AuthorizationsController extends AbstractController
         UserModel $UserModel
     )
     {
-        $User = $UserModel->where('username', '=', $this->Request->query('username'))
-            ->where('password', '=', bcrypt($this->Request->query('password')))
+        $User = $UserModel->where('username', '=', $this->Request->input('username'))
+            ->where('password', '=', bcrypt($this->Request->input('password')))
             ->first();
         if (!$User) {
             return $this->responseFailDate('账号或密码错误');
