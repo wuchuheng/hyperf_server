@@ -22,7 +22,8 @@ class UsersController extends AbstractController
             'nickname' => 'admin',
             'role' => 'admin',
             'roles' => ['admin'],
-            'username' => 'admin'
+            'username' => 'admin',
+            'avatar' => 'http://qiniu.wuchuheng.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200403142946.png'
         ]);
 
     }
