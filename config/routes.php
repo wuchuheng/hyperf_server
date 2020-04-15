@@ -35,5 +35,7 @@ Router::addGroup('/api/admin', function () {
     # 权限接口
     Router::addGroup('', function () {
         Router::get('/users/me', [\App\Http\Admin\Controller\UsersController::class, 'showMe']);
+        Router::get('/dashboards', [\App\Http\Admin\Controller\DashboardsController::class, 'index']);
+        Router::get('/permissions', [\App\Http\Admin\Controller\PermissionsController::class, 'index']);
     });
 });
