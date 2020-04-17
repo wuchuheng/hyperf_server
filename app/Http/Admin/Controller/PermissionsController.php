@@ -8,9 +8,15 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Model\PermissionModel;
+use Hyperf\DbConnection\Db;
 
 class PermissionsController extends AbstractController
 {
+    /**
+     * 权限列表.
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function index()
     {
         $json_str = '{
@@ -419,5 +425,45 @@ class PermissionsController extends AbstractController
             ]
         }';
         return $this->responseSuccessData(json_decode($json_str, true));
+    }
+
+    /**
+     * 新增权限
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function store()
+    {
+        return $this->responseSuccessData([]);
+    }
+
+    /**
+     * @param PermissionModel $PermissionModel
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function treeIndex(PermissionModel $PermissionModel)
+    {
+        $all_nodes = $PermissionModel->select('id', 'pid', Db::raw(" CONCAT(`level_path`,'-', `id`) as path, `name` as label"))
+            ->orderBy('path')
+            ->get()
+            ->toArray();
+        $map  = [];
+        $tree = [];
+        foreach ($all_nodes as &$it){
+            $map[$it['id']] = &$it;
+        }  //数据的ID名生成新的引用索引树
+        foreach ($all_nodes as &$it){
+            $parent = &$map[$it['pid']];
+            unset($it['path'], $it['pid']);
+            if($parent) {
+                $parent['children'][] = &$it;
+            }else{
+                $tree[] = &$it;
+            }
+        }
+        array_unshift($tree, [
+            'id' => 0,
+            'lable' => '根目录'
+        ]);
+        return $this->responseSuccessData($tree);
     }
 }

@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Http\Admin\Controller;
 
+use App\Model\UserModel;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Container\ContainerInterface;
-
 abstract class AbstractController
 {
     /**
@@ -30,6 +30,12 @@ abstract class AbstractController
      * @var RequestInterface
      */
     protected $Request;
+
+    /**
+     * @Inject()
+     * @var UserModel
+     */
+    protected $UserModel;
 
     /**
      * @Inject
@@ -63,5 +69,18 @@ abstract class AbstractController
             'data' => [],
             'code' => 401,
         ]);
+    }
+
+    /**
+     * 获取用户信息.
+     * @return mixed
+     */
+    public function user(): UserModel
+    {
+        $token = str_replace('Bearer ', '',  $this->Request->header('Authorization'));
+        [ , $user_info ] = explode('.', $token);
+        $UserInfo = json_decode(base64_decode($user_info));
+        $User = $this->UserModel->where('id', '=', $UserInfo->uid)->first();
+        return $User;
     }
 }

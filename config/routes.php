@@ -37,5 +37,7 @@ Router::addGroup('/api/admin', function () {
         Router::get('/users/me', [\App\Http\Admin\Controller\UsersController::class, 'showMe']);
         Router::get('/dashboards', [\App\Http\Admin\Controller\DashboardsController::class, 'index']);
         Router::get('/permissions', [\App\Http\Admin\Controller\PermissionsController::class, 'index']);
+        Router::post('/permissions', [\App\Http\Admin\Controller\PermissionsController::class, 'store']);
+        Router::get('/permissions/trees', [\App\Http\Admin\Controller\PermissionsController::class, 'treeIndex']);
     });
 });
