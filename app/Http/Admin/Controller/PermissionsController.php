@@ -462,7 +462,7 @@ class PermissionsController extends AbstractController
         }
         array_unshift($tree, [
             'id' => 0,
-            'lable' => '根目录'
+            'label' => '根目录'
         ]);
         return $this->responseSuccessData($tree);
     }
