@@ -442,7 +442,7 @@ class PermissionsController extends AbstractController
      */
     public function treeIndex(PermissionModel $PermissionModel)
     {
-        $all_nodes = $PermissionModel->select('id', 'pid', Db::raw(" CONCAT(`level_path`,'-', `id`) as path, `name` as label"))
+        $all_nodes = $PermissionModel->select('id', 'pid', Db::raw(" CONCAT(`level_path`,'-', `order_num`) as path, `name` as label"))
             ->orderBy('path')
             ->get()
             ->toArray();

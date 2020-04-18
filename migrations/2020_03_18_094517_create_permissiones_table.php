@@ -20,6 +20,7 @@ class CreatePermissionesTable extends Migration
             $table->string('level_path', 200)->comment('分级路径');
             $table->string('pid', 200)->default('0')->comment('上级id');
             $table->string('note', 200)->nullable()->comment('备注');
+            $table->integer('order_num' )->default(0)->comment('排序');
             $table->timestamps();
         });
     }

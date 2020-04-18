@@ -20,12 +20,16 @@ class PermissionModel extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
-        'action',
+        'name',
+        'slug',
+        'http_method',
+        'http_path',
         'level_path',
-        'route',
-        'name'
+        'pid',
+        'note',
     ];
+
+
     /**
      * The attributes that should be cast to native types.
      *
