@@ -13,7 +13,7 @@ class PermissionModel extends Model
      *
      * @var string
      */
-    protected $table = 'permissiones';
+    protected $table = 'admin_permissiones';
     /**
      * The attributes that are mass assignable.
      *

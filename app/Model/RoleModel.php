@@ -17,7 +17,7 @@ class RoleModel extends Model
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'admin_roles';
     /**
      * The attributes that are mass assignable.
      *

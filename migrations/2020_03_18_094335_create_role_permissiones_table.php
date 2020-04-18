@@ -11,7 +11,7 @@ class CreateRolePermissionesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_permissiones', function (Blueprint $table) {
+        Schema::create('admin_role_permissiones', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('role_id')->comment('角色id');
             $table->integer('permission_id')->comment('权限id');
@@ -24,6 +24,6 @@ class CreateRolePermissionesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_permissiones');
+        Schema::dropIfExists('admin_role_permissiones');
     }
 }

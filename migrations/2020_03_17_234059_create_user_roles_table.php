@@ -13,7 +13,7 @@ class CreateUserRolesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_roles', function (Blueprint $table) {
+        Schema::create('admin_user_roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->comment('用户id');
             $table->integer('role_id')->comment('角色id');

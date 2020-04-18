@@ -11,7 +11,7 @@ class CreatePermissionesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('permissiones', function (Blueprint $table) {
+        Schema::create('admin_permissiones', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 100)->comment('权限名');
             $table->string('slug', 100)->comment('权限标识,用于控制器注解权限');
@@ -30,6 +30,6 @@ class CreatePermissionesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permissiones');
+        Schema::dropIfExists('admin_permissiones');
     }
 }

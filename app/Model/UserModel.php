@@ -20,7 +20,7 @@ class UserModel extends Model
      *
      * @var string
      */
-    protected $table = 'users';
+    protected $table = 'admin_users';
     /**
      * The attributes that are mass assignable.
      *
