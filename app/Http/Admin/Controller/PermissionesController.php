@@ -8,10 +8,11 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Http\Admin\Validation\PermissionesValidation;
 use App\Model\PermissionModel;
 use Hyperf\DbConnection\Db;
 
-class PermissionsController extends AbstractController
+class PermissionesController extends AbstractController
 {
     /**
      * 权限列表.
@@ -431,9 +432,28 @@ class PermissionsController extends AbstractController
      * 新增权限
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function store()
+    public function store(PermissionesValidation $PermissionesValidation, PermissionModel $PermissionModel)
     {
-        return $this->responseSuccessData([]);
+        $PermissionesValidation->scene('add_permission')->goCheck();
+        $Permission = new PermissionModel();
+        if ($this->Request->input('pid') !== 0) {
+            $ParentNote = $PermissionModel->where('id', $this->Request->input('pid'))->first();
+            $Permission->level_path = $ParentNote->level_path . '-' . $ParentNote->id;
+            $Permission->pid = $ParentNote->id;
+        } else {
+            $Permission->level_path = 0;
+            $Permission->pid = 0;
+        }
+        $Permission->note = $this->Request->input('note', '');
+        $Permission->name = $this->Request->input('name');
+        $Permission->http_method = implode(',', $this->Request->input('http_method'));
+        $Permission->http_path = $this->Request->input('http_path');
+        $Permission->slug = $this->Request->input('slug');
+        if ($Permission->save()) {
+            return $this->responseSuccessMsg();
+        } else {
+            return $this->responseFailDate();
+        }
     }
 
     /**
@@ -443,27 +463,28 @@ class PermissionsController extends AbstractController
     public function treeIndex(PermissionModel $PermissionModel)
     {
         $all_nodes = $PermissionModel->select('id', 'pid', Db::raw(" CONCAT(`level_path`,'-', `order_num`) as path, `name` as label"))
+            ->where('pid', 0)
             ->orderBy('path')
             ->get()
             ->toArray();
-        $map  = [];
+        $map = [];
         $tree = [];
-        foreach ($all_nodes as &$it){
+        foreach ($all_nodes as &$it) {
             $map[$it['id']] = &$it;
         }  //数据的ID名生成新的引用索引树
-        foreach ($all_nodes as &$it){
+        foreach ($all_nodes as &$it) {
             $parent = &$map[$it['pid']];
             unset($it['path'], $it['pid']);
-            if($parent) {
+            if ($parent) {
                 $parent['children'][] = &$it;
-            }else{
+            } else {
                 $tree[] = &$it;
             }
         }
-        array_unshift($tree, [
+        $tree = [[
             'id' => 0,
-            'label' => '根目录'
-        ]);
+            'label' => '根目录',
+            'children' => $tree]];
         return $this->responseSuccessData($tree);
     }
 }

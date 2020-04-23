@@ -34,6 +34,9 @@ class PermissionesValidation extends AbstractValidation
             ],
             'http_path' => [
                 'required'
+            ],
+            'test' => [
+                'required'
             ]
         ];
     }

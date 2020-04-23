@@ -58,6 +58,20 @@ abstract class AbstractController
     }
 
     /**
+     * 成功响应消息.
+     * @param string $msg
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function responseSuccessMsg(string $msg = 'Success')
+    {
+        return $this->Response->json([
+            'msg' => $msg,
+            'data' => [],
+            'code' =>  200,
+        ]);
+    }
+
+    /**
      * 失败数据格式
      * @param string $msg
      * @return mixed
