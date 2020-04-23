@@ -16,6 +16,8 @@ use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 use Psr\Container\ContainerInterface;
 use function GuzzleHttp\default_user_agent;
 use App\Exception\ValidationException;
+use Hyperf\Utils\Context;
+use function MongoDB\BSON\fromJSON;
 
 abstract class AbstractValidation
     {
@@ -63,7 +65,6 @@ abstract class AbstractValidation
         $this->messages = $this->setMessages();
         $this->Validator = $Container->get(ValidatorFactoryInterface::class);
         $this->Request = $Container->get(RequestInterface::class);
-//        $this->scene = $this->setScene();
     }
 
     /**
@@ -78,9 +79,13 @@ abstract class AbstractValidation
                 $scene_rules[$rule] = $this->rules[$rule];
             }
         }
-        $this->rules = $scene_rules;
-        // 场景附加验证
-//        $this->scene_extend_rules = $this->setSceneExtendRules();
+        // 场景合并附加验证
+        $extension_rules = $this->setSceneExtendRules();
+        if (array_key_exists($scene_name, $extension_rules)) {
+            $scene_rules = array_merge_recursive($scene_rules, $extension_rules[$scene_name]);
+        }
+        Context::set('permissions_rules', $scene_rules);
+
         return $this;
     }
 
@@ -88,20 +93,20 @@ abstract class AbstractValidation
      * 场景附加验证
      * 对指定的场景附加验证规则
      */
-//    abstract protected function setSceneExtendRules(): array;
+    abstract protected function setSceneExtendRules(): array;
 
     /**
      * 验证.
      */
     public function goCheck(): void
-            {
-                $ValidateResult = $this->Validator->make(
-                    $this->Request->all(),
-                    $this->rules,
-                    $this->messages
-                );
-                if ($ValidateResult->fails()) {
-                    throw new ValidationException(array(
+    {
+        $ValidateResult = $this->Validator->make(
+            $this->Request->all(),
+            Context::get('permissions_rules'),
+            $this->messages
+        );
+        if ($ValidateResult->fails()) {
+            throw new ValidationException(array(
                 'msg' => $ValidateResult->errors()->first(),
             ));
         }

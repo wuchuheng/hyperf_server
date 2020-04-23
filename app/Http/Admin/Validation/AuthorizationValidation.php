@@ -46,4 +46,13 @@ class AuthorizationValidation extends AbstractValidation
             ]
         ];
     }
+
+    /**
+     * 场景附加验证
+     * 对指定的场景附加验证规则
+     */
+    protected function setSceneExtendRules(): array
+    {
+        return [];
+    }
 }
