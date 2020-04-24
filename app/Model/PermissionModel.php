@@ -8,6 +8,10 @@ use Hyperf\DbConnection\Model\Model;
  */
 class PermissionModel extends Model
 {
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
     /**
      * The table associated with the model.
      *
@@ -22,13 +26,21 @@ class PermissionModel extends Model
     protected $fillable = [
         'name',
         'slug',
-        'http_method',
+        'http_methods',
         'http_path',
         'level_path',
         'pid',
         'note',
     ];
 
+    public function getHttpMethodsAttribute($key)
+    {
+        $http_mothods =  array_filter(explode(',', $key));
+        $http_mothods = array_map(function($el) {
+            return strtoupper($el);
+        }, $http_mothods);
+        return $http_mothods;
+    }
 
     /**
      * The attributes that should be cast to native types.
