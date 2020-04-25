@@ -46,7 +46,7 @@ class PermissionesController extends AbstractController
         }
         $Permission->note = $this->Request->input('note', '');
         $Permission->name = $this->Request->input('name');
-        $Permission->http_method = implode(',', $this->Request->input('http_method'));
+        $Permission->http_methods = implode(',', $this->Request->input('http_methods'));
         $Permission->http_path = $this->Request->input('http_path');
         $Permission->slug = $this->Request->input('slug');
         if ($Permission->save()) {

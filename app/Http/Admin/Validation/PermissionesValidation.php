@@ -76,9 +76,7 @@ class PermissionesValidation extends AbstractValidation
             'add_permission' => [
                 'pid',
                 'name',
-                'slug',
-                'http_method',
-                'http_path'
+                'slug'
             ]
         ];
     }
