@@ -22,9 +22,27 @@ class PermissionesController extends AbstractController
     {
         $limit = $this->Request->input('limit', 10);
         $Permissiones = $PermissionModel->paginate((int) $limit);
+        $map  = [];
+        $tree = [];
+        $items = $Permissiones->items();
+        $items = array_map(function ($El) {
+            return $El->toArray();
+        }, $items);
+        foreach ($items as &$it){
+            $el = &$it;
+            $map[$it['id']] = &$it;
+        }  //数据的ID名生成新的引用索引树
+        foreach ($items as &$it){
+            $parent = &$map[$it['pid']];
+            if($parent) {
+                $parent['children'][] = &$it;
+            }else{
+                $tree[] = &$it;
+            }
+        }
         return $this->responseSuccessData([
             'total' => $Permissiones->total(),
-            'items' => $Permissiones->items()
+            'items' => $tree
         ]);
     }
 

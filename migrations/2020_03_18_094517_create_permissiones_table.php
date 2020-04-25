@@ -18,7 +18,7 @@ class CreatePermissionesTable extends Migration
             $table->string('http_methods', 200)->comment('请求方式');
             $table->string('http_path', 100)->comment('请求路由');
             $table->string('level_path', 200)->comment('分级路径');
-            $table->string('pid', 200)->default('0')->comment('上级id');
+            $table->integer('pid')->default(0)->comment('上级id');
             $table->string('note', 200)->nullable()->comment('备注');
             $table->integer('order_num' )->default(0)->comment('排序');
             $table->timestamps();
