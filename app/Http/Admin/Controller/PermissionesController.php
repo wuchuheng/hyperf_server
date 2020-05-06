@@ -105,4 +105,11 @@ class PermissionesController extends AbstractController
             'children' => $tree]];
         return $this->responseSuccessData($tree);
     }
+
+
+    public function destroy($id, PermissionesValidation $PermissionesValidation)
+    {
+        $PermissionesValidation->scene('destroy')->goCheck();
+        var_dump($id);
+    }
 }

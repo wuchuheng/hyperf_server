@@ -20,6 +20,9 @@ class PermissionesValidation extends AbstractValidation
     protected function setRules(): array
     {
         return [
+            'id' => [
+                'required'
+            ],
             'name' => [
                 'required'
             ],
@@ -62,7 +65,10 @@ class PermissionesValidation extends AbstractValidation
                 ],
                 'slug' => [
                     'unique:admin_permissiones,slug'
-                ]
+                ],
+            ],
+            'destory' => [
+                'id' => 'exists:admin_permissiones,id'
             ]
         ];
     }
@@ -77,6 +83,9 @@ class PermissionesValidation extends AbstractValidation
                 'pid',
                 'name',
                 'slug'
+            ],
+            'destroy' => [
+//                'id'
             ]
         ];
     }

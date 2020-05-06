@@ -20,6 +20,10 @@ use Psr\Http\Message\ResponseInterface;
 use Throwable;
 use Psr\Container\ContainerInterface;
 use Phper666\JwtAuth\Exception\TokenValidException;
+<<<<<<< Updated upstream
+=======
+//phper666/jwt-auth/src/Middleware/JwtAuthMiddleware.php
+>>>>>>> Stashed changes
 use App\Exception\ValidationException;
 
 class HttpExceptionHandler extends ExceptionHandler

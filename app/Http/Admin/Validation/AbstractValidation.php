@@ -12,6 +12,7 @@ namespace App\Http\Admin\Validation;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use App\Exception\SystemErrorException;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Router\Dispatched;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 use Psr\Container\ContainerInterface;
 use function GuzzleHttp\default_user_agent;
@@ -100,6 +101,8 @@ abstract class AbstractValidation
      */
     public function goCheck(): void
     {
+        $rest_route_params = $this->Request->getAttribute(Dispatched::class)->params;
+        var_dump($rest_route_params);
         $ValidateResult = $this->Validator->make(
             $this->Request->all(),
             Context::get('permissions_rules'),

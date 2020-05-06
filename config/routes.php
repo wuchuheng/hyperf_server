@@ -39,5 +39,6 @@ Router::addGroup('/api/admin', function () {
         Router::get('/permissions', [\App\Http\Admin\Controller\PermissionesController::class, 'index']);
         Router::post('/permissions', [\App\Http\Admin\Controller\PermissionesController::class, 'store']);
         Router::get('/permissions/trees', [\App\Http\Admin\Controller\PermissionesController::class, 'treeIndex']);
+        Router::delete('/permissions/{id}', [\App\Http\Admin\Controller\PermissionesController::class, 'destroy']);
     }, ['middleware' => [Phper666\JwtAuth\Middleware\JwtAuthMiddleware::class]]);
 });
